@@ -89,12 +89,13 @@ def image_viewer(fileID):
         user = cursor.fetchone()
 
         token = request.cookies.get('JWT')
+        cur_user = ""
 
         if token:
             cur_user = jwt.decode(token, app.config['SECRET_KEY'], algorithms=['HS256'])
             return render_template("image.html", file=file, user=user, cur_user=cur_user)
         
-        return render_template("image.html", file=file, user=user)
+        return render_template("image.html", file=file, user=user, cur_user=cur_user)
     except mysql.connector.Error as err:
         print(err)
         abort(404)
@@ -169,7 +170,7 @@ def register():
                 cursor.execute("INSERT INTO users (username, password) VALUES (%s, %s)", 
                             (username, password))
                 conn.commit()
-                return redirect(url_for("login"))
+                return redirect(url_for("signin"))
             except mysql.connector.Error as err:
                 return f"Error: {err}"
             finally:
