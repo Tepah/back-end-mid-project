@@ -1,0 +1,6 @@
+Requirements:
+- Flask
+- python-dotenv
+- jwt
+- mysql-connector
+- werkzeug

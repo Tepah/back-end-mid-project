@@ -135,10 +135,10 @@ def login():
         cursor.execute('SELECT * FROM users WHERE username = %s AND password = %s', (username, password))
         user = cursor.fetchone()
         if user:
-            resp = make_response(redirect(url_for('profile', username=user['username'])))
+            resp = make_response('Cookie is created')
             token = jwt.encode({'ID': user["id"], 'username': username}, app.config["SECRET_KEY"])
             resp.set_cookie('JWT', token)
-            return resp
+            return token
         else:
             return jsonify({"message": "Could not find user with these credentials"}), 404
     except:
@@ -243,8 +243,11 @@ def uploadFile():
         abort(401)
     return render_template("upload.html")
 
+
 @app.route('/upload', methods=['POST'])
 def upload():
+    if 'file' not in request.files:
+        return jsonify({"message": "No file part"}), 400
     uploaded_file = request.files['file']
     if uploaded_file.filename != '':
         filename = secure_filename(uploaded_file.filename)
@@ -258,6 +261,7 @@ def upload():
                 return jsonify({"message": "File" + filename + "File size exceeds the maximum"})
         else:
             return jsonify({"message": "File" + filename + "Please put in an acceptable file type"})
+
 
 @app.route('/delete/files/<fileid>', methods=["POST"])
 def delete_file(fileid):
@@ -289,6 +293,7 @@ def delete_file(fileid):
         if conn.is_connected():
             conn.close()
             cursor.close()
+
 
 # Protected route to check if JWT token is correct
 @app.route('/protected', methods=['GET'])
@@ -325,26 +330,6 @@ def page_not_found(e):
 def internal_server_error(e):
     return render_template('500.html'), 500
 
-
-# Testing the error requests
-@app.route('/badrequest')
-def bad_request_route():
-    abort(400)
-
-
-@app.route('/unauthorized')
-def unauthorized_route():
-    abort(401)
-
-
-@app.route('/notfound')
-def not_found_route():
-    abort(404)
-
-
-@app.route('/servererror')
-def server_error_route():
-    abort(500)
 
 # Returns mysql Connection
 def get_db_connection():
