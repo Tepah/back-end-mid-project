@@ -8,13 +8,15 @@
 </head>
 <body>
     <h1>Login</h1>
-    <form action="/login" method="POST">
+    <form action="/signin" method="POST">
         <label for="username">Username</label>
-        <input type="text" name="username" id="username">
+        <input type="text" name="username" id="username"><br />
         <label for="password">Password</label>
-        <input type="password" name="password" id="password">
+        <input type="password" name="password" id="password"><br />
         <button type="submit">Login</button>
     </form>
-    <p>Don't have an account? <a href="/create_account">Register</a></p>
+    <p>{{ message }}</p>
+    <p>Don't have an account? <a href="/register">Register</a></p>
+    <p>Check out what you're mising. <a href="/gallery">Gallery</a></p>
 </body>
 </html>

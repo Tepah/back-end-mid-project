@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register</title>
+</head>
+<body>
+    <h2>{{ username }}</h2>
+    <h4>Uploaded Files: </h4>
+    <ul>
+        {% for file in files %}
+            <li><a href="/image/{{ file['fileid'] }}">{{ file['name'] }}</a></li>
+        {% endfor %}
+    </ul>
+    <a href="/uploadFile">Upload a file</a><br />
+    <a href="/settings">Settings</a><br />
+    <a href="/gallery">Gallery</a>
+    <form action="/logout" method="post">
+        <button type="submit">Logout</button>
+    </form>
+</body>
+</html>

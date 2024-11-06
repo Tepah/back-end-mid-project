@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register</title>
+</head>
+<body>
+    <h2>{{ file.name }}</h2>
+    <img src="{{ url_for('static', filename='/files/' + file['name'] )}}" alt="Image">
+    {% if file['user'] == cur_user['username'] %}
+        <form action="/delete/files/{{ file['fileid'] }}" method="post">
+            <button type="submit">Delete</button>
+        </form>
+    {% endif %}
+    <p>Uploaded by: {{ user['username'] }}</p>
+    <a href="/">Back to Profile</a>
+</body>
+</html>
